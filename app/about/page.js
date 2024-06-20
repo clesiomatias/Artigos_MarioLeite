@@ -3,6 +3,16 @@
 import NavBar from "@/src/components/NavBar";
 import Image from "next/image";
 import "../globals.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelopeSquare,  
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faGithub,
+  faLinkedin,
+  faWhatsapp,
+  faInstagram
+} from "@fortawesome/free-brands-svg-icons";
 
 const About = () => {
   return (
@@ -54,6 +64,53 @@ const About = () => {
           Américas (UNIAMERICA) em Foz do Iguaçu/PR. <br />É autor de vários
           livros sobre Lógica e Técnicas de Programação.
         </p>
+      </div>
+      <div className="w-full flex flex-col p-10 items-center justify-center bg-cyan-600 mt-1">
+        <h1 className="w-4/5 h-8 mb-3 p1 rounded text-white text-center md:text-3xl sm:text-2xl font-bold bg-cyan-900">
+          Contatos
+        </h1>
+        <div className="flex text-white items-center justify-center rounded border-2 border-cyan-400 w-full min-h-30">
+          <div className="flex gap-10">
+            <a
+              className="flex gap-5 items-center justify-center"
+              href="mailto:marleite@gmail.com?"
+              target="__blank"
+              subject="subject text"
+            >
+              <FontAwesomeIcon icon={faEnvelopeSquare} />
+              <h1>Email</h1>
+            </a>
+
+            <a
+              className="flex gap-5 items-center justify-center"
+              href="https://wa.me/+554491444779"
+              target="_blank"
+            >
+              <FontAwesomeIcon icon={faWhatsapp} />
+              <h1 >Whatsapp</h1>
+            </a>
+          
+            <a
+              className="flex gap-5 items-center justify-center"
+              href="https://www.linkedin.com/in/mario-leite-67898923/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon icon={faLinkedin} />
+              <h1 >Linkedin</h1>
+            </a>
+
+            <a
+               className="flex gap-5 items-center justify-center"             
+               href="https://www.instagram.com/marioleite2020/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon icon={faInstagram} />
+              <h1>Instagram</h1>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
