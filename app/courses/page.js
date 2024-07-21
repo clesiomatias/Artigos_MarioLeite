@@ -12,7 +12,7 @@ const Courses = () => {
       <div className="w-full h-full min-h-screen flex flex-col p-10 items-center justify-center bg-cyan-400 mt-1">
         <h1 className="text-2xl font-bold text-cyan-900">Minicursos</h1>
 
-        <div className="flex p-10 items-center justify-center gap-10 md:flex-col sm:felx-col">
+        <div className="flex p-10 items-center justify-center gap-10 md:flex-col sm:flex-col">
           <a href="https://github.com/ProfMLE/Rep02" target="_blank">
             <Card className="flex items-center">
               <CardHeader>
