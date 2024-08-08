@@ -11,15 +11,9 @@ const DownloadItems = () => {
     <>
       <NavBar />
       <div className="w-full h-full min-h-screen flex flex-col p-10 items-center justify-start bg-cyan-400 mt-1">
-        <div className=" w-full flex justify-end items-center ">
-        <button 
-        className="rounded-md bg-cyan-900 shadow-xs  text-white p-3"
-        
-        >
-          <Link href="/login"> Uploads</Link>
-        </button>
-      </div>
-        <div className=" w-full flex justify-end items-center  ">
+     <h1 className="animate-bounce text-2xl font-bold text-cyan-900">
+          Em Breve!!!
+        </h1>
 
         </div>
 
