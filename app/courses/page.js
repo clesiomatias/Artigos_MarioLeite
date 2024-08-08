@@ -48,7 +48,7 @@ const Courses = () => {
               </CardFooter>
             </Card>
           </a>
-          <a href="https://github.com/ProfMLE/Rep004" target="_blank">
+          <a href="https://github.com/ProfMLE/Rep03" target="_blank">
             <Card>
               <CardHeader>
                 <Image

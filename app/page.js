@@ -41,10 +41,9 @@ export default function Home() {
       </section>
 
       <section
-        id="download_items"
-        className=" text-white h-screen bg-cyan-600 flex"
-      >
-        <h1 className="text-3xl md:text-8xl m-auto font-waterfall text-7xl text-white font-bold flex flex-col items-center space-y-2.5 ">
+        id="download_items"        
+        className="text-cyan-900 h-screen bg-sky-300 flex">
+        <h1 className="text-3xl md:text-8xl m-auto font-waterfall text-7xl  text-cyan-900  font-bold  flex flex-col items-center space-y-2.5">
           <Link href={"/download_items"}>Arquivos para baixar</Link>
           <p className="text-center font-semibold text-lg md:textbase sm:text-sm">
             O Prof. Mário Leite disponibiliza para baixar diversos arquivos como
@@ -52,8 +51,10 @@ export default function Home() {
           </p>
         </h1>
       </section>
-      <section id="about" className="text-cyan-900 h-screen bg-sky-300 flex">
-        <h1 className="text-3xl md:text-8xl m-auto font-waterfall text-7xl  text-cyan-900  font-bold  flex flex-col items-center space-y-2.5">
+      <section id="about" 
+      className=" text-white h-screen bg-cyan-600 flex"
+      >
+        <h1 className="text-3xl md:text-8xl m-auto font-waterfall text-7xl text-white font-bold flex flex-col items-center space-y-2.5 ">
           <Link href={"/about"}>Sobre</Link>
           <p className="text-center font-semibold text-lg md:textbase sm:text-sm">
             Conheça um pouco da história do Prof. Mário Leite.
