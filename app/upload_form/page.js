@@ -1,38 +1,43 @@
 "use client";
 import NavBar from "@/src/components/NavBar";
-import Image from "next/image";
 import React, { useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
-import axios from "axios"; // Importando Axios
+import axios from "axios";
 import "../globals.css";
 
-const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const UploadForm = () => {
+  const [file, setFile] = useState(null); // Estado para armazenar o arquivo
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
+  // Função que será chamada ao submeter o formulário
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrorMessage(""); // Limpa qualquer mensagem de erro anterior
+    setErrorMessage("");
+    setSuccessMessage("");
 
-    const formData = new URLSearchParams();
-    formData.append("username", username);
-    formData.append("password", password);
+    if (!file) {
+      setErrorMessage("Selecione um arquivo antes de enviar.");
+      return;
+    }
 
-    const url = "https://marleite.pythonanywhere.com/login";
+    const formData = new FormData();
+    formData.append("file", file); // Adiciona o arquivo ao FormData
+
+    const url = "https://marleite.pythonanywhere.com/upload";
 
     try {
       const response = await axios.post(url, formData, {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "multipart/form-data",
         },
       });
 
       if (response.status === 200) {
-        window.location.href = "/upload_form"; // redirecionar após login bem-sucedido
+        setSuccessMessage("Arquivo enviado com sucesso!");
       } else {
-        setErrorMessage("Erro no login. Usuário ou senha inválido!");
+        setErrorMessage("Erro ao fazer upload do arquivo.");
       }
     } catch (error) {
       console.error("Erro:", error);
@@ -55,46 +60,33 @@ const LoginPage = () => {
               style={{ aspectRatio: "64/64", objectFit: "cover" }}
             />
             <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 dark:text-gray-100">
-              Entre em sua conta
+              Upload de Arquivos
             </h2>
           </div>
+
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
-                <label htmlFor="user-name" className="sr-only">
-                  Usuário
+                <label htmlFor="file-upload" className="sr-only">
+                  Selecione o arquivo
                 </label>
                 <Input
-                  id="user-name"
-                  name="username"
-                  type="text"
+                  id="file-upload"
+                  name="file"
+                  type="file"
                   required
-                  placeholder="Nome de usuário"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => setFile(e.target.files[0])} // Define o arquivo no estado
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Senha
-                </label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  placeholder="Senha"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 />
               </div>
             </div>
 
+            {/* Mensagem de sucesso ou erro */}
             {errorMessage && (
-              <p className="text-red-500 text-sm">{errorMessage}</p> // Exibindo a mensagem de erro
+              <p className="text-red-500 text-sm">{errorMessage}</p>
+            )}
+            {successMessage && (
+              <p className="text-green-500 text-sm">{successMessage}</p>
             )}
 
             <div>
@@ -102,14 +94,26 @@ const LoginPage = () => {
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Entrar
+                Enviar
               </Button>
             </div>
           </form>
+
+          <div className="flex justify-between mt-4">
+            <a
+              href="/download_items"
+              className="text-indigo-500 hover:underline"
+            >
+              Voltar aos arquivos
+            </a>
+            <a href="/delete_files" className="text-red-500 hover:underline">
+              Apagar arquivos
+            </a>
+          </div>
         </div>
       </main>
     </>
   );
 };
 
-export default LoginPage;
+export default UploadForm;

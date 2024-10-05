@@ -6,7 +6,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/NavBar.jsx",
-    "./node_modules/@nextui-org/theme/dist/components/(card|modal|progress|ripple).js"
+    "./node_modules/@nextui-org/theme/dist/components/(button|card|input|link|modal|progress|ripple|spinner).js"
   ],
   theme: {
     extend: {
