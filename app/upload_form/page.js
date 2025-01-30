@@ -24,23 +24,39 @@ const UploadForm = () => {
 
     const formData = new FormData();
     formData.append("file", file); // Adiciona o arquivo ao FormData
+    formData.append("uploader", "nome_do_uploader"); // Adiciona o campo uploader
 
     const url = "https://marleite.pythonanywhere.com/upload";
 
     try {
+      // Recupere o token do localStorage
+      const token = localStorage.getItem("authToken");
+      console.log("Token sendo enviado:", token);
+
+      // Verifique se o token está presente
+      if (!token) {
+        setErrorMessage("Token de autenticação não encontrado.");
+        return;
+      }
+
+      // Envia a requisição com o token de autenticação no cabeçalho
       const response = await axios.post(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, // Envia o token no cabeçalho
         },
       });
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         setSuccessMessage("Arquivo enviado com sucesso!");
       } else {
         setErrorMessage("Erro ao fazer upload do arquivo.");
       }
     } catch (error) {
-      console.error("Erro:", error);
+      console.error(
+        "Erro:",
+        error.response ? error.response.data : error.message
+      );
       setErrorMessage("Erro ao conectar com o servidor.");
     }
   };

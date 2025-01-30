@@ -30,6 +30,11 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
+        const token = response.data.token; // Supondo que o token seja retornado assim
+
+        // Armazena o token no localStorage (ou sessionStorage)
+        localStorage.setItem("authToken", token);
+
         window.location.href = "/upload_form"; // redirecionar após login bem-sucedido
       } else {
         setErrorMessage("Erro no login. Usuário ou senha inválido!");

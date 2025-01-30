@@ -82,35 +82,7 @@ const DownloadItems = () => {
         </div>
       </div>
 
-      <footer className="w-full py-4 bg-gray-800 text-center text-white">
-        <h4 className="dev">
-          © {new Date().getFullYear()} - Developed by @clesiofmatias
-        </h4>
-        <div className="flex justify-center space-x-4 mt-2">
-          <a
-            href="https://clesiomatias-portfolio.netlify.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <i className="fa fa-code text-white"></i>
-          </a>
-          <a href="https://www.facebook.com/clesio.matias.583" target="_blank">
-            <i className="fab fa-facebook text-white"></i>
-          </a>
-          <a href="https://www.instagram.com/clesiomatias/" target="_blank">
-            <i className="fab fa-instagram text-white"></i>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/cl%C3%A9sio-matias-0533011a2/"
-            target="_blank"
-          >
-            <i className="fab fa-linkedin text-white"></i>
-          </a>
-          <a href="https://github.com/clesiomatias" target="_blank">
-            <i className="fab fa-github text-white"></i>
-          </a>
-        </div>
-      </footer>
+     
     </>
   );
 };
