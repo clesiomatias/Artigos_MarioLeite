@@ -16,24 +16,30 @@ const LoginPage = () => {
     event.preventDefault();
     setErrorMessage(""); // Limpa qualquer mensagem de erro anterior
 
-    const formData = new URLSearchParams();
-    formData.append("username", username);
-    formData.append("password", password);
-
     const url = "https://marleite.pythonanywhere.com/login";
 
     try {
-      const response = await axios.post(url, formData, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+      const response = await axios.post(
+        url,
+        {
+          username: username,
+          password: password,
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Resposta do servidor:", response.data); // Log para depuração
 
       if (response.status === 200) {
         const token = response.data.token; // Supondo que o token seja retornado assim
 
         // Armazena o token no localStorage (ou sessionStorage)
         localStorage.setItem("authToken", token);
+        console.log("Token armazenado:", localStorage.getItem("authToken")); // Log para depuração
 
         window.location.href = "/upload_form"; // redirecionar após login bem-sucedido
       } else {
