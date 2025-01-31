@@ -31,7 +31,7 @@ const UploadForm = () => {
     try {
       // Recupere o token do localStorage
       const token = localStorage.getItem("authToken");
-      console.log("Token sendo enviado:", token);
+     
 
       // Verifique se o token está presente
       if (!token) {
