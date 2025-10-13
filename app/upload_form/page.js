@@ -43,7 +43,7 @@ const UploadForm = () => {
       const response = await axios.post(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`, // Envia o token no cabeçalho
+          Authorization: `Bearer ${token}`, 
         },
       });
 
