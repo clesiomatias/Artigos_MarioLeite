@@ -31,11 +31,13 @@ const Books = () => {
     onOpenChange(true);
   };
 
-  const filteredBooks = Object.entries(ImageBooks).filter(([key, book]) => {
-    if (filter === 'available') return book.buy;
-    if (filter === 'unavailable') return !book.buy;
-    return true;
-  });
+  const filteredBooks = Object.entries(ImageBooks)
+    .sort(([a], [b]) => parseInt(b) - parseInt(a)) // Ordem decrescente por ID
+    .filter(([key, book]) => {
+      if (filter === 'available') return book.buy;
+      if (filter === 'unavailable') return !book.buy;
+      return true;
+    });
 
   const SkeletonCard = () => (
     <div className="animate-pulse">
