@@ -15,18 +15,58 @@ const Codes = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [names, lastPostInfo] = await Promise.all([
-          getPosts(),
-          lastPost()
-        ]);
-        setPostNames(names);
-        setLastPostData(lastPostInfo || { firstName: "", firstUrl: "", firstDate: '' });
+        console.log('Iniciando busca de dados...');
+        const names = await getPosts();
+        console.log('Posts encontrados:', names?.length || 0, 'itens');
+        setPostNames(names || []);
+        
+        try {
+          console.log('Buscando último post...');
+          const lastPostInfo = await lastPost();
+          console.log('Resposta lastPost():', lastPostInfo);
+          console.log('firstName:', lastPostInfo?.firstName);
+          console.log('firstUrl:', lastPostInfo?.firstUrl);
+          console.log('firstDate:', lastPostInfo?.firstDate);
+          
+          if (lastPostInfo && lastPostInfo.firstName) {
+            console.log('Definindo lastPostData com dados válidos');
+            setLastPostData(lastPostInfo);
+          } else {
+            console.log('lastPost retornou dados inválidos, usando fallback com dados de exemplo');
+            // Fallback com dados de exemplo do primeiro arquivo da lista
+            if (names && names.length > 0) {
+              setLastPostData({
+                firstName: names[0],
+                firstUrl: `https://github.com/ProfMLE/Rep01/blob/master/${names[0]}`,
+                firstDate: new Date().toLocaleDateString('pt-BR')
+              });
+            } else {
+              setLastPostData({ firstName: "", firstUrl: "", firstDate: '' });
+            }
+          }
+        } catch (lastPostError) {
+          console.error('Erro ao buscar último post:', lastPostError);
+          // Fallback: usar o primeiro arquivo da lista se houver erro
+          if (names && names.length > 0) {
+            console.log('Usando primeiro arquivo como fallback:', names[0]);
+            setLastPostData({
+              firstName: names[0],
+              firstUrl: `https://github.com/ProfMLE/Rep01/blob/master/${names[0]}`,
+              firstDate: new Date().toLocaleDateString('pt-BR')
+            });
+          } else {
+            setLastPostData({ firstName: "", firstUrl: "", firstDate: '' });
+          }
+        }
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
+        setError('Erro ao carregar os artigos. Verifique sua conexão com a internet.');
+        setPostNames([]);
       } finally {
         setIsLoading(false);
       }
@@ -78,51 +118,75 @@ const Codes = () => {
     <>
       <NavBar />
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500">
-        {/* Hero Section - Artigo em Destaque */}
-        {lastPostData.firstName && (
-          <div className="relative overflow-hidden bg-gradient-to-r from-indigo-900/90 to-purple-900/90 backdrop-blur-sm">
-            <div className="absolute inset-0 bg-black/20"></div>
-            <div className="relative container mx-auto px-4 py-16">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-2 bg-yellow-400 text-yellow-900 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                  ⭐ Artigo em Destaque
+        {/* Hero Section - Última Postagem */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-indigo-900/90 to-purple-900/90 backdrop-blur-sm">
+          <div className="absolute inset-0 bg-black/20"></div>
+          <div className="relative container mx-auto px-4 py-16">
+            {isLoading ? (
+              <div className="text-center">
+                <div className="animate-pulse">
+                  <div className="h-8 bg-white/20 rounded-full w-48 mx-auto mb-4"></div>
+                  <div className="h-12 bg-white/20 rounded w-96 mx-auto mb-8"></div>
+                  <div className="max-w-4xl mx-auto">
+                    <div className="h-64 bg-white/20 rounded-lg"></div>
+                  </div>
+                </div>
+              </div>
+            ) : (lastPostData?.firstName && lastPostData.firstName.trim() !== '') ? (
+              <>
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center gap-2 bg-yellow-400 text-yellow-900 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    ⭐ Última Postagem
+                  </div>
+                  <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                    Publicado em {lastPostData.firstDate || 'Data não disponível'}
+                  </h1>
+                </div>
+                
+                <div className="max-w-4xl mx-auto">
+                  <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-0 overflow-hidden">
+                    <CardHeader className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6">
+                      <div className="flex items-center gap-4 w-full">
+                        <div className="text-4xl">{getFileIcon(lastPostData.firstName)}</div>
+                        <div className="flex-1">
+                          <h2 className="text-xl md:text-2xl font-bold">
+                            {lastPostData.firstName.split(".").shift()}
+                          </h2>
+                          <p className="text-indigo-100 mt-1">
+                            Arquivo: {lastPostData.firstName}
+                          </p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardFooter className="p-6">
+                      <a
+                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 px-6 rounded-lg hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                        href={lastPostData.firstUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>🔗</span>
+                        Ver no GitHub
+                      </a>
+                    </CardFooter>
+                  </Card>
+                </div>
+              </>
+            ) : (
+              <div className="text-center">
+                <div className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-200 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                  📚 Biblioteca de Códigos
                 </div>
                 <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-                  Publicado em {lastPostData.firstDate}
+                  Bem-vindo à Nossa Biblioteca
                 </h1>
+                <p className="text-xl text-white/90 max-w-2xl mx-auto">
+                  Explore nossa coleção de códigos, artigos e materiais didáticos para acelerar seu aprendizado em programação.
+                </p>
               </div>
-              
-              <div className="max-w-4xl mx-auto">
-                <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-0 overflow-hidden">
-                  <CardHeader className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6">
-                    <div className="flex items-center gap-4 w-full">
-                      <div className="text-4xl">{getFileIcon(lastPostData.firstName)}</div>
-                      <div className="flex-1">
-                        <h2 className="text-xl md:text-2xl font-bold">
-                          {lastPostData.firstName.split(".").shift()}
-                        </h2>
-                        <p className="text-indigo-100 mt-1">
-                          Arquivo: {lastPostData.firstName}
-                        </p>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardFooter className="p-6">
-                    <a
-                      className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 px-6 rounded-lg hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                      href={lastPostData.firstUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span>🔗</span>
-                      Ver no GitHub
-                    </a>
-                  </CardFooter>
-                </Card>
-              </div>
-            </div>
+            )}
           </div>
-        )}
+        </div>
 
         {/* Seção Principal - Todos os Artigos */}
         <div className="container mx-auto px-4 py-16">
@@ -180,6 +244,21 @@ const Codes = () => {
             </div>
           </div>
 
+          {/* Mensagem de Erro */}
+          {error && (
+            <div className="max-w-2xl mx-auto mb-8">
+              <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 text-center">
+                <p className="text-red-100 font-semibold">⚠️ {error}</p>
+                <button 
+                  onClick={() => window.location.reload()}
+                  className="mt-2 bg-red-500/30 hover:bg-red-500/50 text-white px-4 py-2 rounded-lg transition-colors duration-300"
+                >
+                  Tentar Novamente
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Grid de Artigos */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {isLoading
@@ -194,10 +273,9 @@ const Codes = () => {
                   return (
                     <div
                       key={index}
-                      className="group transform transition-all duration-500 hover:scale-105"
+                      className="group transform transition-all duration-500 hover:scale-105 animate-fade-in"
                       style={{
-                        animationDelay: `${index * 50}ms`,
-                        animation: isLoading ? 'none' : 'fadeInUp 0.6s ease-out forwards'
+                        animationDelay: `${index * 50}ms`
                       }}
                     >
                       <Card className="h-full bg-white/95 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300 border-0 overflow-hidden">
@@ -264,6 +342,10 @@ const Codes = () => {
             opacity: 1;
             transform: translateY(0);
           }
+        }
+        
+        .animate-fade-in {
+          animation: fadeInUp 0.6s ease-out forwards;
         }
         
         .line-clamp-2 {
