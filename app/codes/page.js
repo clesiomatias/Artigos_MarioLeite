@@ -37,31 +37,12 @@ const Codes = () => {
             console.log('Definindo lastPostData com dados válidos');
             setLastPostData(lastPostInfo);
           } else {
-            console.log('lastPost retornou dados inválidos, usando fallback com dados de exemplo');
-            // Fallback com dados de exemplo do primeiro arquivo da lista
-            if (names && names.length > 0) {
-              setLastPostData({
-                firstName: names[0],
-                firstUrl: `https://github.com/ProfMLE/Rep01/blob/master/${names[0]}`,
-                firstDate: new Date().toLocaleDateString('pt-BR')
-              });
-            } else {
-              setLastPostData({ firstName: "", firstUrl: "", firstDate: '' });
-            }
+            console.log('lastPost retornou dados inválidos');
+            setLastPostData({ firstName: "", firstUrl: "", firstDate: '' });
           }
         } catch (lastPostError) {
           console.error('Erro ao buscar último post:', lastPostError);
-          // Fallback: usar o primeiro arquivo da lista se houver erro
-          if (names && names.length > 0) {
-            console.log('Usando primeiro arquivo como fallback:', names[0]);
-            setLastPostData({
-              firstName: names[0],
-              firstUrl: `https://github.com/ProfMLE/Rep01/blob/master/${names[0]}`,
-              firstDate: new Date().toLocaleDateString('pt-BR')
-            });
-          } else {
-            setLastPostData({ firstName: "", firstUrl: "", firstDate: '' });
-          }
+          setLastPostData({ firstName: "", firstUrl: "", firstDate: '' });
         }
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
@@ -147,10 +128,10 @@ const Codes = () => {
                   <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-0 overflow-hidden">
                     <CardHeader className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6">
                       <div className="flex items-center gap-4 w-full">
-                        <div className="text-4xl">{getFileIcon(lastPostData.firstName)}</div>
+                        <div className="text-4xl">{lastPostData.firstName ? getFileIcon(lastPostData.firstName) : '📄'}</div>
                         <div className="flex-1">
                           <h2 className="text-xl md:text-2xl font-bold">
-                            {lastPostData.firstName.split(".").shift()}
+                            {lastPostData.firstName?.split(".").shift() || 'Sem título'}
                           </h2>
                           <p className="text-indigo-100 mt-1">
                             Arquivo: {lastPostData.firstName}
