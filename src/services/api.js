@@ -52,9 +52,8 @@ export const lastPost = async () => {
       console.log(`Evento ${index}:`, evento.type, 'tem commits:', !!evento.payload?.commits);
     });
     
-    if (elementos.length > 1) {
-      // Usar elementos[1] como no código original
-      const evento = elementos[1];
+    if (elementos.length > 1) {     
+      const evento = elementos[0];
       console.log('Evento selecionado:', evento.type);
       console.log('SHA do commit (head):', evento.payload?.head);
       
