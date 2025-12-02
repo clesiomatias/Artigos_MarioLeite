@@ -28,7 +28,7 @@ function NavBar() {
                   href="/codes"
                   className="text-white hover:bg-white hover:text-black px-3 py-2 rounded-lg"
                 >
-                  Códigos e Textos
+                  Textos e Códigos
                 </a>
                 <a
                   href="/books"
@@ -99,38 +99,37 @@ function NavBar() {
         {navbar && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              
-                <a
-                  href="/codes"
-                  className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
-                >
-                  Códigos e Textos
-                </a>
-                <a
-                  href="/books"
-                  className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
-                >
-                  Livros
-                </a>
-                <a
-                  href="/courses"
-                  className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
-                >
-                  Minicursos
-                </a>
-                <a
-                  href="/download_items"
-                  className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
-                >
-                  Arquivos para baixar
-                </a>
-              
-                <a
-                  href="/about"
-                  className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
-                >
-                  Sobre
-                </a>
+              <a
+                href="/codes"
+                className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
+              >
+                Códigos e Textos
+              </a>
+              <a
+                href="/books"
+                className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
+              >
+                Livros
+              </a>
+              <a
+                href="/courses"
+                className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
+              >
+                Minicursos
+              </a>
+              <a
+                href="/download_items"
+                className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
+              >
+                Arquivos para baixar
+              </a>
+
+              <a
+                href="/about"
+                className="text-white block hover:bg-white hover:text-black px-3 py-2 rounded-lg"
+              >
+                Sobre
+              </a>
             </div>
           </div>
         )}
