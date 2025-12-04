@@ -108,7 +108,7 @@ export default function Home() {
                 📚 14 Livros Publicados
               </span>
               <span className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full">
-                👨‍🏫 30+ Anos de Experiência
+                👨‍🏫 50+ Anos de Experiência
               </span>
             </div>
 
